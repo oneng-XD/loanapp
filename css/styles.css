@@ -1,0 +1,62 @@
+﻿.required:after {
+    content: " *";
+    color: red;
+}
+
+.input-container {
+    position: relative;
+}
+
+.currency-symbol {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    font-size: 11px; /* Adjust the size as needed */
+}
+
+nav > .nav.nav-tabs {
+ 
+    background: #272e38;
+   
+}
+
+
+
+nav > div a.nav-item.nav-item.active {
+    border: none;
+    padding: 15px 28px;
+    color: #fff;
+    background: #272e38;
+    border-radius: 0px;
+    border-bottom-style: solid;
+    border-bottom-width: thick;
+    border-bottom-color: #2ecc71;
+}
+
+.form-label{
+    font-size: 12px;
+}
+.form-control {
+    height: 40%;
+    font-size: 11px;
+}
+.form-select {
+    height: 45%;
+    font-size: 11px;
+}
+.input-group-text {
+    font-size: 10px;
+}
+.form-check-label {
+    font-size: 12px;
+}
+
+table.a {
+    table-layout: auto;
+    width: 100%;
+}
+
+.right-text {
+    font-size: 11px;
+}
