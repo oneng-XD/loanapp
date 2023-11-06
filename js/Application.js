@@ -3,7 +3,8 @@ var requiredFieldErrorColor = '0px 0px 7px red';
 var mMessage = [];
 var mElement = [];
 var ApplicationLoan = null;
-
+var mFamEditMode = '';
+var mFamEditID = '';
 
 
 $(document).ready(function () {
@@ -293,23 +294,6 @@ bindFileInputEvents('file_idpic', 'text_idpic', 'span_idpic', 'view_idpic');
 /*--------------------start code 05------------------*/
 //this is to add row data to the table on the add family member modal
 
-$('#btnFamSave').unbind("click").click(function (e) {
-    var boolSuccess = true;
-    boolSuccess = ValidateFields('', '.famreq', '');
-
-    if (boolSuccess) {
-        var _mFamCount = $('#myFamily tbody tr').length;
-        if (_mFamCount == 2) {
-            e.stopPropagation();
-            alert('Only a maximum of 2 Family Members are allowed.');
-        } else {
-            AddFamily();
-        }
-    } else {
-        alert('Please check the highlighted fields.');
-
-    } 
-});
 
 $('#btnAddFam').click(function (e) {
     var _mFamCount = $('#myFamily tbody tr').length;
