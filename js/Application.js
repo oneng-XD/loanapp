@@ -311,59 +311,274 @@ $('#btnFamSave').unbind("click").click(function (e) {
     } 
 });
 
-function AddFamily() {
-    var _mFamDetails = [];
-    var _mNextFamCount = $('#myFamily tbody tr').length + 1;
-    var LastName = $('#txtFamLastname').val();
-    var FirstName = $('#txtFamFirstname').val();
-    var MiddleName = $('#txtFamMiddlename').val();
-    var DOB = $('#txtFamDob').val();
-    var POB = $('#txtFamPob').val();
-    var OCCUPATION = $('#txtFamOccupation').val();
-    var COMPANY = $('#txtFamCompanyName').val();
-    var CONTACT = $('#txtFamComContactNo').val();
-    var COMPANYSTREET = $('#street6').val();
-    var COMPANYREGION = $('#region6').val();
-    var COMPANYPROVINCE = $('#province6').val();
-    var COMPANYTOWN = $('#city6').val();
-    var COMPANYZIP = $('#zipCode6').val();
-    var RELATION = $('#txtFamRelationship').val();
+$('#btnAddFam').click(function (e) {
+    var _mFamCount = $('#myFamily tbody tr').length;
 
-    var FullName = LastName + ", " + FirstName + " " + MiddleName;
-    var FullAddress = COMPANYSTREET + ", " + COMPANYREGION + " " + COMPANYPROVINCE + " " + COMPANYTOWN + " " + COMPANYZIP;
-
-   
-    _mFamDetails.push('<td class="famfullname" id="famfullname_' + _mNextFamCount + '">' + FullName + '</td>'); //1
-    _mFamDetails.push('<td class="famdob" id="famdob_' + _mNextFamCount + '">' + DOB + '</td>'); //2
-    _mFamDetails.push('<td class="fampob" id="fampob_' + _mNextFamCount + '">' + POB + '</td>'); //3
-    _mFamDetails.push('<td class="famoccupation" id="famoccupation_' + _mNextFamCount + '">' + OCCUPATION + '</td>'); //4
-    _mFamDetails.push('<td class="famcompany" id="famcompany_' + _mNextFamCount + '">' + COMPANY + '</td>'); //5
-    _mFamDetails.push('<td class="famcontactno" id="famcontactno_' + _mNextFamCount + '">' + CONTACT + '</td>'); //6
-    _mFamDetails.push('<td class="famcomaddress" id="famcomaddress_' + _mNextFamCount + '">' + FullAddress + '</td>'); //7
-    _mFamDetails.push('<td class="famzip" id="zipCode_' + _mNextFamCount + '">' + COMPANYZIP + '</td>'); //8
-    _mFamDetails.push('<td class="famrelation" id="famrelation_' + _mNextFamCount + '">' + RELATION + '</td>'); //9
-    _mFamDetails.push('<td class="famstreet d-none" id="street_' + _mNextFamCount + '">' + COMPANYSTREET + '</td>'); //10
-    _mFamDetails.push('<td class="famregion d-none" id="region_' + _mNextFamCount + '">' + COMPANYREGION + '</td>'); //11
-    _mFamDetails.push('<td class="famprovince d-none" id="province_' + _mNextFamCount + '">' + COMPANYPROVINCE + '</td>'); //12
-    _mFamDetails.push('<td class="famcity d-none" id="city_' + _mNextFamCount + '">' + COMPANYTOWN + '</td>'); //13
-    _mFamDetails.push('<td class="famlastname d-none" id="famlastname_' + _mNextFamCount + '">' + LastName + '</td>'); //14
-    _mFamDetails.push('<td class="famfirstnane d-none" id="famfirstname_' + _mNextFamCount + '">' + FirstName + '</td>'); //15
-    _mFamDetails.push('<td class="fammiddlename d-none" id="fammiddlename_' + _mNextFamCount + '">' + MiddleName + '</td>'); //16
-
-
-    var markup = '';
-
-    for (i = 0; i < _mFamDetails.length; i++) {
-        markup += _mFamDetails[i];
+    if (_mFamCount == 2) {
+        e.stopPropagation();
+        alert('Only a maximum of 2 family members are allowed.');
+    } else {
+        $('#addFamily').modal('show');
+        InitializeFamilyModal('ADD', '');
+      
+      //call success function
     }
 
-    $('#myFamily tbody:last-child').append('<tr>' + markup + '<td><button class="btn btn-danger delete"><i class="fa fa-trash"></i></button></td></td></tr>');
-    $("[data-dismiss=modal]").trigger({ type: "click" });
-    
+});
+
+$(document).on('click', '.famedit', function () { //Beneficiary edit button
+    InitializeFamilyModal('EDIT', this.name);
+});
+
+
+
+function InitializeFamilyModal(pMode, pFamID) {
+   
+  
+
+    if (pMode.toUpperCase() == 'ADD') {
+        mFamEditMode = 'ADD';
+
+
+    } else if (pMode.toUpperCase() == 'EDIT') {
+        mFamEditMode = 'EDIT';
+        mFamEditID = pFamID;
+
+
+        //console.log(mFamEditID); trigger once ie. fam_1
+
+        clearFamilyDetails();
+
+        $('#myFamily tbody tr').each(function () {
+            _this = $(this);
+            let _mFamID = _this.children('.famid').html();
+
+            //console.log(mFamEditID); //(2) only one ie. fam_1 but trigger twice
+            //console.log(_mFamID) // trigger all row ie. fam_1 fam_2
+
+            if (_mFamID == mFamEditID) {
+               // console.log(_this.children('.famprovince').html());
+                $('#txtFamLastname').val(_this.children('.famlastname').html());
+                $('#txtFamFirstname').val(_this.children('.famfirstname').html());
+                $('#txtFamMiddlename').val(_this.children('.fammiddlename').html());
+                $('#txtFamDob').val(_this.children('.famdob').html());
+                $('#txtFamPob').val(_this.children('.fampob').html());
+                $('#txtFamOccupation').val(_this.children('.famoccupation').html());
+                $('#txtFamCompanyName').val(_this.children('.famcompany').html());
+                $('#txtFamComContactNo').val(_this.children('.famcontactno').html());
+                $('#street6').val(_this.children('.famstreet').html());
+                $('#region6').val(_this.children('.famregion').html());
+              //  $('#province6').val(_this.children('.famprovince').html());
+               // $('#city6').val(_this.children('.famcity').html());
+               $('#zipCode6').val(_this.children('.famzipcode').html());
+               
+                const $fregion = $('#region6');
+                const $fprovince = $('#province6');
+                const $fcity = $('#city6');
+                const $fzipCodeInput = $('#zipCode6');
+
+                const fselectedRegion = $fregion.val();
+                console.log(fselectedRegion);
+                if (fselectedRegion) {
+                    populateDropdown($fprovince, address[fselectedRegion]);
+                    $fprovince.prepend($('<option selected  value="' + _this.children('.famprovince').html() +'">'+ _this.children('.famprovince').html() +'</option>'));
+                } else {
+                    clearDropdowns($fprovince, $fcity, $fzipCodeInput);
+                }
+
+                const fselectedProvince = _this.children('.famprovince').html();
+                    if (fselectedProvince) {
+                        populateDropdown($fcity, address[fselectedRegion][fselectedProvince]);
+                        $fcity.prepend($('<option selected  value="' + _this.children('.famcity').html() +'">' + _this.children('.famcity').html() +'</option>'));
+                    } else {
+                        clearDropdowns($fcity, $fzipCodeInput);
+                    }
+
+
+              
+            
+
+
+            }
+        });
+
+    }
+
+
 }
 
-/*--------------------end code 05------------------*/
 
+function clearFamilyDetails() {
+    _txtFamLastname = $('#txtFamLastname');
+    _txtFamFirstname = $('#txtFamFirstname');
+    _txtFamMiddlename = $('#txtFamMiddlename');
+    _txtRegion = $('#region6');
+
+    _txtFamLastname.val('');
+    _txtFamFirstname.val('');
+    _txtFamMiddlename.val('');
+    _txtRegion.val('');
+
+}
+$('#btnFamSave').unbind("click").click(function (e) {
+    if (mFamEditMode == 'ADD') {
+        AddFamily();
+    } else if (mFamEditMode == 'EDIT') {
+        UpdateFamily();
+    }
+});
+
+
+function AddFamily() {
+    var boolSuccess = true;
+    boolSuccess = ValidateFields('', '.famreq', '');
+
+    if (boolSuccess) {
+        var _mFamDetails = [];
+       
+        var LastName = $('#txtFamLastname').val();
+        var FirstName = $('#txtFamFirstname').val();
+        var MiddleName = $('#txtFamMiddlename').val();
+        var DOB = $('#txtFamDob').val();
+        var POB = $('#txtFamPob').val();
+        var OCCUPATION = $('#txtFamOccupation').val();
+        var COMPANY = $('#txtFamCompanyName').val();
+        var CONTACT = $('#txtFamComContactNo').val();
+        var COMPANYSTREET = $('#street6').val();
+        var COMPANYREGION = $('#region6').val();
+        var COMPANYPROVINCE = $('#province6').val();
+        var COMPANYTOWN = $('#city6').val();
+        var COMPANYZIP = $('#zipCode6').val();
+        var RELATION = $('#txtrelationship').val();
+
+        var FullName = LastName + ", " + FirstName + " " + MiddleName;
+        var FullAddress = COMPANYSTREET + ", " + COMPANYREGION + " " + COMPANYPROVINCE + " " + COMPANYTOWN + " " + COMPANYZIP;
+
+
+        _mFamDetails.push('<td class="famfullname" id="famfullname_' + _mNextFamCount + '">' + FullName + '</td>'); //1
+        _mFamDetails.push('<td class="famdob" id="famdob_' + _mNextFamCount + '">' + DOB + '</td>'); //2
+        _mFamDetails.push('<td class="fampob" id="fampob_' + _mNextFamCount + '">' + POB + '</td>'); //3
+        _mFamDetails.push('<td class="famoccupation" id="famoccupation_' + _mNextFamCount + '">' + OCCUPATION + '</td>'); //4
+        _mFamDetails.push('<td class="famcompany" id="famcompany_' + _mNextFamCount + '">' + COMPANY + '</td>'); //5
+        _mFamDetails.push('<td class="famcontactno" id="famcontactno_' + _mNextFamCount + '">' + CONTACT + '</td>'); //6
+        _mFamDetails.push('<td class="famcomaddress" id="famcomaddress_' + _mNextFamCount + '">' + FullAddress + '</td>'); //7
+        _mFamDetails.push('<td class="famzipcode" id="famzipcode_' + _mNextFamCount + '">' + COMPANYZIP + '</td>'); //8
+        _mFamDetails.push('<td class="famrelation" id="famrelation_' + _mNextFamCount + '">' + RELATION + '</td>'); //9
+        _mFamDetails.push('<td><button class="btn btn-primary famedit" name="fam_' + _mNextFamCount + '" type="button" data-bs-toggle="modal" data-bs-target="#addFamily"><i class="fa fa-pencil"></i></button><button class="btn btn-danger delete"><i class="fa fa-trash"></i></button></td>'); //12
+        _mFamDetails.push('<td class="famstreet d-none" id="famstreet_' + _mNextFamCount + '">' + COMPANYSTREET + '</td>'); //10
+        _mFamDetails.push('<td class="famregion d-none" id="famregion_' + _mNextFamCount + '">' + COMPANYREGION + '</td>'); //11
+        _mFamDetails.push('<td class="famprovince d-none" id="famprovince_' + _mNextFamCount + '">' + COMPANYPROVINCE + '</td>'); //12
+        _mFamDetails.push('<td class="famcity d-none" id="famcity_' + _mNextFamCount + '">' + COMPANYTOWN + '</td>'); //13
+        _mFamDetails.push('<td class="famlastname d-none" id="famlastname_' + _mNextFamCount + '">' + LastName + '</td>'); //14
+        _mFamDetails.push('<td class="famfirstname d-none" id="famfirstname_' + _mNextFamCount + '">' + FirstName + '</td>'); //15
+        _mFamDetails.push('<td class="fammiddlename d-none" id="fammiddlename_' + _mNextFamCount + '">' + MiddleName + '</td>'); //16
+        _mFamDetails.push('<td class="famid d-none" id="famid_' + _mNextFamCount + '">' + 'fam_' + _mNextFamCount + '</td>'); //17 - Fam Temp ID
+
+        _mNextFamCount++; //set = 0 if submitted
+        var markup = '';
+
+        for (i = 0; i < _mFamDetails.length; i++) {
+            markup += _mFamDetails[i];
+        }
+
+        $('#myFamily tbody:last-child').append('<tr>' + markup + '</tr>');
+        $("[data-bs-dismiss=modal]").trigger({ type: "click" });
+      
+    } else {
+        alert('Please check the highlighted fields.');
+    }
+}
+
+function UpdateFamily() {
+
+    var boolSuccess = true;
+    boolSuccess = ValidateFields('', '.famreq', '');
+
+    if (boolSuccess) {
+
+        var LastName = $('#txtFamLastname').val();
+        var FirstName = $('#txtFamFirstname').val();
+        var MiddleName = $('#txtFamMiddlename').val();
+        var DOB = $('#txtFamDob').val();
+        var POB = $('#txtFamPob').val();
+        var OCCUPATION = $('#txtFamOccupation').val();
+        var COMPANY = $('#txtFamCompanyName').val();
+        var CONTACT = $('#txtFamComContactNo').val();
+        var COMPANYSTREET = $('#street6').val();
+        var COMPANYREGION = $('#region6').val();
+        var COMPANYPROVINCE = $('#province6').val();
+        var COMPANYTOWN = $('#city6').val();
+        var COMPANYZIP = $('#zipCode6').val();
+        var RELATION = $('#txtrelationship').val();
+
+        var FullName = LastName + ", " + FirstName + " " + MiddleName;
+        var FullAddress = COMPANYSTREET + ", " + COMPANYREGION + " " + COMPANYPROVINCE + " " + COMPANYTOWN + " " + COMPANYZIP;
+
+
+        $('#myFamily tbody tr').each(function () {
+            _this = $(this);
+            let _mFamID = _this.children('.famid').html();
+
+            if (_mFamID == mFamEditID) {
+                _this.children('.famfullname').html(FullName);
+                _this.children('.famlastname').html(LastName);
+                _this.children('.famfirstname').html(FirstName);
+                _this.children('.fammiddlename').html(MiddleName);
+                _this.children('.famcomaddress').html(FullAddress);
+                _this.children('.famdob').html(DOB);
+                _this.children('.fampob').html(POB);
+                _this.children('.famoccupation').html(OCCUPATION);
+                _this.children('.famcompany').html(COMPANY);
+                _this.children('.famcontactno').html(CONTACT);
+                _this.children('.famstreet').html(COMPANYSTREET);
+                _this.children('.famregion').html(COMPANYREGION);
+                _this.children('.famprovince').html(COMPANYPROVINCE);
+                _this.children('.famcity').html(COMPANYTOWN);
+                _this.children('.famzipcode').html(COMPANYZIP);
+                _this.children('.famrelation').html(RELATION);
+            }
+        });
+
+        $("[data-bs-dismiss=modal]").trigger({ type: "click" });
+    }
+}
+/*--------------------end code 05------------------*/
+$(document).ready(function () {
+    $("#txtCivStat").on("change", function () {
+        var csselectedValue = $(this).val();
+        if (csselectedValue === "S") {
+            // Disable the text field
+            $('#txtSpoLastname').prop('disabled', true).val('NA');
+            $('#txtSpoFirstname').prop('disabled', true).val('NA');
+            $('#txtSpoMiddlename').prop('disabled', true).val('NA');
+            $('#txtSpoDob').prop('disabled', true).val('NA');
+            $('#txtSpoPob').prop('disabled', true).val('NA');
+            $('#txtSpoOccupation').prop('disabled', true).val('NA');
+            $('#txtSpoCompany').prop('disabled', true).val('NA');
+            $('#contact5').prop('disabled', true).val('NA');
+            $('#street5').prop('disabled', true).val('NA');
+            $('#region5').prop('disabled', true).val('NA').removeClass('spireq');
+            $('#province5').prop('disabled', true).val('NA').removeClass('spireq');
+            $('#city5').prop('disabled', true).val('NA').removeClass('spireq');
+            $('#zipCode5').prop('disabled', true).val('NA');
+        } else {
+            // Enable the text field
+            $('#txtSpoLastname').prop('disabled', false).val('');
+            $('#txtSpoFirstname').prop('disabled', false).val('');
+            $('#txtSpoMiddlename').prop('disabled', false).val('');
+            $('#txtSpoDob').prop('disabled', false).val('');
+            $('#txtSpoPob').prop('disabled', false).val('');
+            $('#txtSpoOccupation').prop('disabled', false).val('');
+            $('#txtSpoCompany').prop('disabled', false).val('');
+            $('#contact5').prop('disabled', false).val('');
+            $('#street5').prop('disabled', false).val('');
+            $('#region5').prop('disabled', false).val('').addClass('spireq');
+            $('#province5').prop('disabled', false).val('').addClass('spireq');
+            $('#city5').prop('disabled', false).val('').addClass('spireq');
+            $('#zipCode5').prop('disabled', false).val('');
+        }
+    });
+});
 
 
 

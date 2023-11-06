@@ -204,13 +204,21 @@ $(document).ready(function () {
             $('.hiddenR3').prop('disabled', true).val($('#region2').val());
             $('.hiddenP3').prop('disabled', true).val($('#province2').val());
             $('.hiddenC3').prop('disabled', true).val($('#city2').val());
-            $('#zipCode3').prop('disabled', true).val($('#zipCode2').val());
             $('#region3, #province3, #city3 ').removeClass('payreq');
+            $('#zipCode3').prop('disabled', true).val($('#zipCode2').val());
+            $('#street3').prop('disabled', true).val($('#street2').val());
+            $('#contact3').prop('disabled', true).val($('#contact2').val());
+            $('#losy3').prop('disabled', true).val($('#losy2').val());
+            $('#losm3').prop('disabled', true).val($('#losm2').val());
         } else {
             $('#region3, #province3, #city3 ').addClass('payreq');
             $('.showR3, .showP3, .showC3').show();
             $('.hiddenR3, .hiddenP3, .hiddenC3').val('').hide();
             $('#zipCode3').prop('disabled', false).val('');
+            $('#contact3').prop('disabled', false).val('');
+            $('#street3').prop('disabled', false).val('');
+            $('#losy3').prop('disabled', false).val('');
+            $('#losm3').prop('disabled', false).val('');
 
         }
     });
@@ -222,13 +230,21 @@ $(document).ready(function () {
             $('.hiddenR4').prop('disabled', true).val($('#region2').val());
             $('.hiddenP4').prop('disabled', true).val($('#province2').val());
             $('.hiddenC4').prop('disabled', true).val($('#city2').val());
-            $('#zipCode4').prop('disabled', true).val($('#zipCode2').val());
             $('#region4, #province4, #city4 ').removeClass('payreq');
+            $('#zipCode4').prop('disabled', true).val($('#zipCode2').val());
+            $('#contact4').prop('disabled', true).val($('#contact2').val());
+            $('#street4').prop('disabled', true).val($('#street2').val());
+            $('#losy4').prop('disabled', true).val($('#losy2').val());
+            $('#losm4').prop('disabled', true).val($('#losm2').val());
         } else {
             $('#region4, #province4, #city4 ').addClass('payreq');
             $('.showR4, .showP4, .showC4').show();
             $('.hiddenR4, .hiddenP4, .hiddenC4').val('').hide();
-            $('#zipCode4').prop('disabled', false).val('')
+            $('#zipCode4').prop('disabled', false).val('');
+            $('#contact4').prop('disabled', false).val('');
+            $('#street4').prop('disabled', false).val('');
+            $('#losy4').prop('disabled', false).val('');
+            $('#losm4').prop('disabled', false).val('');
         }
     });
 });
